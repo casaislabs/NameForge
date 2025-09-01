@@ -445,8 +445,8 @@ def filter_results(names_text, min_length, max_length, original_names=None):
 # Move these small handlers ABOVE the UI construction so they're defined before use.
 def on_generate_start():
     # Notificación de inicio + deshabilitar botón
-    gr.Info("🚀 Generando nombres...")
-    return gr.update(interactive=False, value="⏳ Generando...")
+    gr.Info("🚀 Generating names...")
+    return gr.update(interactive=False, value="⏳ Generating...")
 
 def on_generate_end(names_text: str):
     # Habilitar botón + notificación de resultado
@@ -458,14 +458,14 @@ def on_generate_end(names_text: str):
             or "No names could be generated" in names_text
             or names_text.startswith("An unexpected error occurred")
         ):
-            gr.Warning("⚠️ La generación no produjo resultados válidos. Revisa tu prompt y parámetros.")
+            gr.Warning("⚠️ The generation did not produce valid results. Check your prompt and parameters.")
         else:
-            gr.Info("✅ Generación completada exitosamente.")
+            gr.Info("✅ Generation successfully completed.")
     finally:
         return gr.update(interactive=True, value="🚀 Generate Names")
 
 def store_original_names(names_text: str):
-    # Guarda el texto completo de nombres generados para filtrados posteriores
+    # Save the complete text of generated names for subsequent filtering
     return names_text
 
 # Create the Gradio interface
@@ -474,9 +474,9 @@ def export_csv_from_text(names_text: str):
     Build a CSV file from the current names text (what the user sees), and return its file path.
     """
     try:
-        # Validación temprana + notificación
+        # Early validation + notification
         if not names_text or not isinstance(names_text, str) or not names_text.strip():
-            gr.Warning("📋 No hay nombres para exportar. Genera nombres primero.")
+            gr.Warning("📋 There are no names to export. Generate names first.")
             logger.warning("export_csv_from_text called with empty or invalid names_text")
             return None
 
@@ -493,11 +493,11 @@ def export_csv_from_text(names_text: str):
             "❌"
         ]
         if any(marker in names_text for marker in error_markers):
-            gr.Warning("⚠️ El contenido actual no es exportable. Genera nombres válidos primero.")
+            gr.Warning("⚠️ The current content is not exportable. Generate valid names first.")
             logger.info("export_csv_from_text found error/placeholder text, skipping export")
             return None
 
-        # Extraer nombres de líneas numeradas "1. Nombre"
+        # Extract names from numbered lines "1. Name"
         lines = [l for l in names_text.strip().split("\n") if ". " in l]
         names = []
         for line in lines:
@@ -509,7 +509,7 @@ def export_csv_from_text(names_text: str):
                 continue
 
         if not names:
-            gr.Warning("📋 No hay nombres válidos para exportar.")
+            gr.Warning("📋 No valid names to export.")
             logger.info("export_csv_from_text found no names to export")
             return None
 
@@ -532,12 +532,12 @@ def export_csv_from_text(names_text: str):
         temp_file.close()
         logger.debug(f"Export CSV created at {temp_file.name}")
 
-        # Notificación de éxito
-        gr.Info("📊 CSV generado correctamente. La descarga se iniciará automáticamente.")
+        # Success notification
+        gr.Info("📊 CSV generated successfully. Download will start automatically.")
         return temp_file.name
     except Exception as e:
         logger.error(f"Error exporting CSV: {e}")
-        gr.Error(f"❌ Error al exportar CSV: {str(e)}")
+        gr.Error(f"❌ Error exporting CSV: {str(e)}")
         return None
 
 
