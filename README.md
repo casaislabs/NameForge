@@ -114,6 +114,9 @@ NameForge comes configured with **sharing enabled** by default, which means:
 - ✅ **No configuration**: No need to configure ports or domains
 
 #### **Google Colab Usage**
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Ey6J3RVggwEOFdpZKfYXJYi0iOwl-Dc1?usp=sharing)
+
 ```python
 # In a Colab cell
 !git clone https://github.com/casaislabs/NameForge.git
